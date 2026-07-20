@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f8f6f1;
+  --paper-raised: #fffdf9;
+  --ink: #1c211f;
+  --ink-soft: #55605b;
+  --ink-faint: #8b948f;
+  --rule: #d8d3c8;
+  --rule-soft: #e7e3da;
+  --teal: #0e6b5c;
+  --teal-deep: #0a5044;
+  --teal-wash: #e3efec;
+  --amber: #a06514;
+  --amber-wash: #f6ecdc;
+  --red: #9c3325;
+  --red-wash: #f5e6e2;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-teal-wash: var(--teal-wash);
+  --color-amber: var(--amber);
+  --color-amber-wash: var(--amber-wash);
+  --color-red: var(--red);
+  --color-red-wash: var(--red-wash);
+  --font-serif: var(--font-newsreader);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-plex-sans), sans-serif;
+  font-feature-settings: "ss01";
+}
+
+::selection {
+  background: var(--teal-wash);
+  color: var(--teal-deep);
+}
+
+/* Hairline journal rules */
+.rule-t {
+  border-top: 1px solid var(--rule);
+}
+.rule-heavy {
+  border-top: 2px solid var(--ink);
+}
+
+/* Form primitives shared across auth + app forms */
+.field {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--rule);
+  background: var(--paper-raised);
+  padding: 0.5rem 0.75rem;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.field:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal);
+}
+.btn-primary,
+.btn-ghost {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 150ms, background-color 150ms, border-color 150ms;
+}
+.btn-primary:disabled,
+.btn-ghost:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.btn-primary {
+  background: var(--teal);
+  color: var(--paper-raised);
+}
+.btn-primary:hover {
+  background: var(--teal-deep);
+}
+.btn-ghost {
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+}
+.btn-ghost:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
 }

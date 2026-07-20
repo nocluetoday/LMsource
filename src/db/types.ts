@@ -1,4 +1,4 @@
-import type { ColumnType, Generated, JSONColumnType } from "kysely";
+import type { ColumnType, Generated } from "kysely";
 
 // Keep in sync with migrations/*.sql (hand-maintained).
 
@@ -11,6 +11,7 @@ export type ScreenDecision = "include" | "exclude" | "maybe";
 export type PrismaBucket = "identified" | "deduplicated" | "screened_in" | "screened_out" | "extracted";
 export type SupportStatus = "supported" | "insufficient";
 
+type Jsonb = ColumnType<unknown, unknown, unknown>;
 type Timestamp = ColumnType<Date, Date | string, Date | string>;
 type CreatedAt = ColumnType<Date, Date | string | undefined, never>;
 
@@ -26,7 +27,7 @@ export interface QuestionsTable {
   id: Generated<string>;
   project_id: string;
   text: string;
-  pico: JSONColumnType<unknown> | null;
+  pico: Jsonb | null;
   created_at: CreatedAt;
   updated_at: ColumnType<Date, Date | string | undefined, Date | string>;
 }
@@ -36,9 +37,9 @@ export interface RunsTable {
   question_id: string;
   status: Generated<RunStatus>;
   current_stage: string | null;
-  config: JSONColumnType<unknown>;
-  pico_snapshot: JSONColumnType<unknown> | null;
-  error: JSONColumnType<unknown> | null;
+  config: Jsonb;
+  pico_snapshot: Jsonb | null;
+  error: Jsonb | null;
   created_at: CreatedAt;
   started_at: Timestamp | null;
   finished_at: Timestamp | null;
@@ -49,8 +50,8 @@ export interface RunStagesTable {
   run_id: string;
   stage: string;
   status: Generated<StageStatus>;
-  output: JSONColumnType<unknown> | null;
-  error: JSONColumnType<unknown> | null;
+  output: Jsonb | null;
+  error: Jsonb | null;
   started_at: Timestamp | null;
   finished_at: Timestamp | null;
 }
@@ -77,7 +78,7 @@ export interface SearchRunsTable {
   fetched_count: number | null;
   status: Generated<SearchRunStatus>;
   error: string | null;
-  rate_limit_headers: JSONColumnType<unknown> | null;
+  rate_limit_headers: Jsonb | null;
 }
 
 export interface ArticlesTable {
@@ -87,8 +88,8 @@ export interface ArticlesTable {
   abstract: string | null;
   year: number | null;
   journal: string | null;
-  authors: JSONColumnType<unknown>;
-  publication_types: JSONColumnType<unknown>;
+  authors: Jsonb;
+  publication_types: Jsonb;
   cited_by_count: number | null;
   source_of_truth: SourceName | null;
   abstract_source: SourceName | null;
@@ -112,7 +113,7 @@ export interface RetrievalEventsTable {
   search_run_id: string | null;
   source: SourceName;
   position: number | null;
-  raw_payload: JSONColumnType<unknown>;
+  raw_payload: Jsonb;
   retrieved_at: CreatedAt;
 }
 
@@ -120,7 +121,7 @@ export interface RunArticlesTable {
   run_id: string;
   article_id: string;
   score_total: number | null;
-  score_components: JSONColumnType<unknown> | null;
+  score_components: Jsonb | null;
   rank: number | null;
   screen_decision: ScreenDecision | null;
   screen_reason: string | null;
@@ -133,7 +134,7 @@ export interface EvidenceExtractionsTable {
   id: Generated<string>;
   run_id: string;
   article_id: string;
-  extraction: JSONColumnType<unknown>;
+  extraction: Jsonb;
   model: string;
   confidence: number | null;
   created_at: CreatedAt;

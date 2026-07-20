@@ -1,65 +1,89 @@
-import Image from "next/image";
+import Link from "next/link";
+import { getSession } from "@/auth/session";
 
-export default function Home() {
+const PIPELINE = [
+  ["01", "PICO", "The question becomes a structured, editable search specification."],
+  ["02", "Strategies", "Multiple complementary Boolean searches, each with a stated rationale."],
+  ["03", "Retrieval", "PubMed, OpenAlex, Crossref, and Scopus, searched in parallel."],
+  ["04", "Deduplication", "Deterministic identity resolution by DOI, PMID, EID, then title."],
+  ["05", "Ranking", "Hybrid scoring: semantic, lexical, design, population, recency."],
+  ["06", "Extraction", "Design, population, outcomes, and effect estimates — each tied to a source span."],
+  ["07", "Synthesis", "A cited evidence matrix and narrative in which no claim floats free."],
+] as const;
+
+export default async function Landing() {
+  const session = await getSession();
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+    <main className="mx-auto w-full max-w-5xl flex-1 px-6 pb-24">
+      <header className="flex items-baseline justify-between pt-8">
+        <span className="font-serif text-xl tracking-tight">
+          LM<span className="text-teal">Source</span>
+        </span>
+        <nav className="flex items-center gap-3">
+          {session ? (
+            <Link href="/dashboard" className="btn-primary">
+              Open workspace
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className="btn-ghost">
+                Sign in
+              </Link>
+              <Link href="/signup" className="btn-primary">
+                Create account
+              </Link>
+            </>
+          )}
+        </nav>
+      </header>
+
+      <section className="pt-24 pb-16">
+        <p className="font-mono text-[13px] uppercase tracking-[0.2em] text-teal">
+          Literature reasoning, not literature search
+        </p>
+        <h1 className="mt-6 max-w-3xl font-serif text-[clamp(2.4rem,6vw,4.2rem)] leading-[1.05] tracking-tight">
+          Every claim traceable to a{" "}
+          <em className="text-teal-deep">source passage.</em>
+        </h1>
+        <p className="mt-8 max-w-xl text-[17px] leading-relaxed text-ink-soft">
+          LMSource turns a clinical question into a reproducible evidence pipeline:
+          structured searches across four bibliographic databases, deterministic
+          deduplication, ranked screening, and a cited synthesis built only from
+          extracted evidence.
+        </p>
+        <div className="mt-10 flex gap-3">
+          <Link href={session ? "/dashboard" : "/signup"} className="btn-primary">
+            Start a question
+          </Link>
+          <a href="#pipeline" className="btn-ghost">
+            How it works
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section id="pipeline" className="rule-heavy pt-10">
+        <h2 className="font-mono text-[13px] uppercase tracking-[0.2em] text-ink-faint">
+          The pipeline
+        </h2>
+        <ol className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          {PIPELINE.map(([n, title, body]) => (
+            <li key={n} className="rule-t pt-4">
+              <div className="flex items-baseline gap-3">
+                <span className="font-mono text-[13px] text-teal">{n}</span>
+                <h3 className="font-serif text-xl">{title}</h3>
+              </div>
+              <p className="mt-2 text-[14px] leading-relaxed text-ink-soft">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <footer className="rule-t mt-24 pt-6 text-[13px] text-ink-faint">
+        <p>
+          Bibliographic records remain authoritative to their sources. Scopus-derived
+          content is limited to authorized institutional users.
+        </p>
+      </footer>
+    </main>
   );
 }
