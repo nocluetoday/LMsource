@@ -1,0 +1,45 @@
+{
+  "header": {
+    "type": "esearch",
+    "version": "0.3"
+  },
+  "esearchresult": {
+    "count": "130",
+    "retmax": "25",
+    "retstart": "0",
+    "idlist": [
+      "42461912",
+      "42411541",
+      "42405348",
+      "42301870",
+      "42225392",
+      "42149659",
+      "42133003",
+      "42046716",
+      "42025929",
+      "41991408",
+      "41875198",
+      "41811789",
+      "41752694",
+      "41565162",
+      "41522419",
+      "41492622",
+      "41175137",
+      "40932479",
+      "40907025",
+      "40840798",
+      "40669691",
+      "40665177",
+      "40605628",
+      "39955521",
+      "39699112"
+    ],
+    "translationset": [
+      {
+        "from": "methenamine",
+        "to": "\"methenamine\"[Supplementary Concept] OR \"methenamine\"[All Fields] OR \"methenamine\"[MeSH Terms]"
+      }
+    ],
+    "querytranslation": "(\"methenamine\"[Supplementary Concept] OR \"methenamine\"[All Fields] OR \"methenamine\"[MeSH Terms]) AND (\"urinary tract infection\"[All Fields] OR \"UTI\"[All Fields])"
+  }
+}
